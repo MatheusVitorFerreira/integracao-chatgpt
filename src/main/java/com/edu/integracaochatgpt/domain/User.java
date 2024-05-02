@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
-import java.util.Collections;
+
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -19,21 +21,40 @@ import java.util.Date;
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String username;
-    private String password;
-    private String email;
-    private UserRole role;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+
+        @Column(nullable = false, unique = true)
+        private String username;
+
+        @Column
+        private String password;
+
+        @Column(nullable = false, unique = true)
+        private String email;
+
+        @Column(nullable = false)
+        private String role;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable =  false, updatable =  false)
     private Date createdAt;
 
+    public User(String username, String password, String email, UserRole role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role.getRole();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        if(this.role.equals(UserRole.ADMIN.getRole())) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
     }
 
 
