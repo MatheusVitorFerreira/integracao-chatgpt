@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #0F0c25;
+    color: #fff;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.caixa {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+}
+
+#login {
+    text-align: center;
+}
+
+.username input,
+.password input {
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    width: 250px;
+    height: 40px;
+    padding: 0 15px;
+    background: #1e1c2e;
+    color: #b6b6b6;
+    margin-top: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.entrar input {
+    cursor: pointer;
+    width: 120px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background: #DFF986;
+    margin-top: 15px;
+    color: #141414;
+}
+
+input::placeholder {
+    color: #b6b6b6;
+}
+
+h1 {
+    color: #FAFAFA;
+}
