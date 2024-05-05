@@ -54,4 +54,8 @@ public class UserController {
         UserDTO userDTO = new UserDTO(user);
         return ResponseEntity.ok(userDTO);
     }
+    @GetMapping("/teste")
+    public String teste() {
+        return "ok";
+    }
 }

@@ -23,6 +23,7 @@ body {
     padding: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border: 1px solid #ccc;
+    width: 300px;
 }
 
 #login {
@@ -33,7 +34,7 @@ body {
 .password input {
     border-radius: 20px;
     border: 1px solid #ccc;
-    width: 250px;
+    width: calc(100% - 30px);
     height: 40px;
     padding: 0 15px;
     background: #1e1c2e;
@@ -43,9 +44,9 @@ body {
     outline: none;
 }
 
-.entrar input {
+.entrar button {
     cursor: pointer;
-    width: 120px;
+    width: calc(100% - 30px);
     height: 40px;
     border-radius: 20px;
     border: none;
@@ -54,10 +55,30 @@ body {
     color: #141414;
 }
 
-input::placeholder {
-    color: #b6b6b6;
+.upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    width: 300px;
 }
 
-h1 {
+.upload h1 {
     color: #FAFAFA;
+    margin-bottom: 15px;
+}
+
+.upload button {
+    width: calc(100% - 30px);
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background: #DFF986;
+    margin-top: 15px;
+    color: #141414;
 }

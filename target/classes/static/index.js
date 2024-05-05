@@ -1,14 +1,11 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('loginForm');
-    form.addEventListener('submit', attemptLogin);
-});
+document.getElementById('loginForm').addEventListener('submit', attemptLogin);
+document.getElementById('audioFileInput').addEventListener('change', uploadAudio);
 
 async function attemptLogin(event) {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const username = formData.get('username');
-    const password = formData.get('password');
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
     try {
         console.log("Tentativa de login com usuário:", username);
@@ -29,9 +26,11 @@ async function attemptLogin(event) {
             const data = await response.json();
             console.log("Resposta do servidor:", data);
             const token = data.token;
-            storeUsername(username);
-            storeToken(token);
-            // Redirecionar ou realizar outras operações aqui após o login bem-sucedido
+            localStorage.setItem('token', token);
+
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('uploadBox').style.display = 'block';
+            document.getElementById('audioBox').style.display = 'block';
         } else {
             const error = await response.text();
             console.error("Login failed:", error);
@@ -43,10 +42,34 @@ async function attemptLogin(event) {
     }
 }
 
-function storeToken(token) {
-    localStorage.setItem('Token', token);
-}
+async function uploadAudio(event) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
 
-function storeUsername(username) {
-    localStorage.setItem('username', username);
+    try {
+        const formData = new FormData();
+        formData.append('audio', file); // Altere 'audio' para o mesmo nome usado no controller
+
+        const token = localStorage.getItem('token');
+        const apiKey = 'sua-chave-aqui';
+
+        const response = await fetch('/api/audio/transcribe', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'x-api-key': apiKey
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro no envio do arquivo de áudio.');
+        }
+
+        const data = await response.json();
+        console.log('Transcrição do áudio:', data);
+
+    } catch (error) {
+        console.error('Erro durante o upload de áudio:', error);
+    }
 }

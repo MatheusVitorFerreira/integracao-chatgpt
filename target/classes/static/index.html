@@ -14,20 +14,30 @@
     <div id="login">
         <div class="caixa">
             <h1>Login</h1>
-            <form id="loginForm" method="POST">
+            <form id="loginForm">
                 <div class="username">
-                    <input type="text" name="username" placeholder="Username">
+                    <input type="text" id="username" placeholder="Username">
                 </div>
                 <div class="password">
-                    <input type="password" name="password" placeholder="Password">
+                    <input type="password" id="password" placeholder="Password">
                 </div>
                 <div class="entrar">
-                    <input type="submit" value="Entrar">
+                    <button type="submit">Entrar</button>
                 </div>
             </form>
         </div>
     </div>
+
+    <div class="upload" id="uploadBox" style="display: none;">
+        <h1>Upload</h1>
+    </div>
+
+    <div class="upload" id="audioBox" style="display: none;">
+        <input type="file" id="audioFileInput" style="display: none;">
+        <label for="audioFileInput" id="audioButton">Insira o áudio</label>
+    </div>
 </div>
+
 <script src="stomp.min.js" defer></script>
 <script src="index.js" defer></script>
 </body>
