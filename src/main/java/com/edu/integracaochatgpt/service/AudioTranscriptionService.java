@@ -16,13 +16,13 @@ import java.util.List;
 @Service
 public class AudioTranscriptionService {
 
-    @Value("${google.cloud.speech.api-key}")
-    private String apiKey;
+    @Value("${google.cloud.credentials-file-path}")
+    private String credentialsFilePath;
 
     public String transcribeAudio(MultipartFile audioFile) {
         try {
             // Configure the credentials provider
-            GoogleCredentials credentials = ServiceAccountCredentials.fromStream(new FileInputStream("path/to/serviceAccountKey.json"));
+            GoogleCredentials credentials = ServiceAccountCredentials.fromStream(new FileInputStream(credentialsFilePath));
             SpeechSettings settings = SpeechSettings.newBuilder()
                     .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
                     .build();
