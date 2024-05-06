@@ -48,17 +48,15 @@ async function uploadAudio(event) {
 
     try {
         const formData = new FormData();
-        formData.append('audio', file); // Altere 'audio' para o mesmo nome usado no controller
+        formData.append('file', file);
 
         const token = localStorage.getItem('token');
-        const apiKey = 'sua-chave-aqui';
 
-        const response = await fetch('/api/audio/transcribe', {
+        const response = await fetch('/api/transcription/audio', {
             method: 'POST',
             body: formData,
             headers: {
-                Authorization: `Bearer ${token}`,
-                'x-api-key': apiKey
+                Authorization: `Bearer ${token}`
             }
         });
 
