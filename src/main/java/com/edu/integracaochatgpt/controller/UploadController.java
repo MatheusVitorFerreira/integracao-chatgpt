@@ -17,9 +17,20 @@ public class UploadController {
     @PostMapping("/audio")
     public ResponseEntity<String> transcribeAudio(@RequestParam("file") MultipartFile audioFile) {
         try {
+            if (audioFile == null || audioFile.isEmpty()) {
+                return ResponseEntity.badRequest().body("Arquivo de áudio não fornecido.");
+            }
+
             String transcription = transcriptionService.transcribeAudio(audioFile);
-            return ResponseEntity.ok(transcription);
+
+            // Verifica se a transcrição foi bem-sucedida
+            if (transcription != null && !transcription.isEmpty()) {
+                return ResponseEntity.ok(transcription);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Não foi possível transcrever o áudio.");
+            }
         } catch (Exception e) {
+
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao transcrever áudio.");
         }

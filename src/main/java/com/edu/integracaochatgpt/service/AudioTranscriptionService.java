@@ -3,37 +3,38 @@ package com.edu.integracaochatgpt.service;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.api.gax.rpc.ApiException;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.speech.v1.*;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
 
 @Service
 public class AudioTranscriptionService {
-
-    @Value("${google.cloud.credentials-file-path}")
-    private String credentialsFilePath;
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     public String transcribeAudio(MultipartFile audioFile) {
         try {
-            // Configure the credentials provider
-            GoogleCredentials credentials = ServiceAccountCredentials.fromStream(new FileInputStream(credentialsFilePath));
+
+            Resource resource = resourceLoader.getResource("classpath:transcrever-audio-em-texto-b8708667f6a3.json");
+            InputStream inputStream = resource.getInputStream();
+            GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
+
             SpeechSettings settings = SpeechSettings.newBuilder()
                     .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
                     .build();
 
-            // Create the SpeechClient with the configured settings
             try (SpeechClient speechClient = SpeechClient.create(settings)) {
 
-                // Convert the MultipartFile to bytes
                 byte[] audioBytes = audioFile.getBytes();
 
-                // Configure the recognition request
                 RecognitionConfig config =
                         RecognitionConfig.newBuilder()
                                 .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
@@ -45,7 +46,6 @@ public class AudioTranscriptionService {
                         .setContent(com.google.protobuf.ByteString.copyFrom(audioBytes))
                         .build();
 
-                // Perform the speech recognition request
                 RecognizeResponse response = speechClient.recognize(config, audio);
                 List<SpeechRecognitionResult> results = response.getResultsList();
 

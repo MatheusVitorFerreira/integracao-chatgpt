@@ -27,15 +27,17 @@
             </form>
         </div>
     </div>
+</div>
 
-    <div class="upload" id="uploadBox" style="display: none;">
-        <h1>Upload</h1>
-    </div>
 
-    <div class="upload" id="audioBox" style="display: none;">
-        <input type="file" id="audioFileInput" style="display: none;">
-        <label for="audioFileInput" id="audioButton">Insira o áudio</label>
-    </div>
+<div id="uploadBox" style="display: none;">
+    <h1>Upload</h1>
+    <label for="arquivo" id="selecionarArquivo">
+    </label>
+    <input type="file" id="arquivo">
+    <br><br>
+    <textarea rows="8" cols="50" id="preview"></textarea>
+    <br><br>
 </div>
 
 <script src="stomp.min.js" defer></script>
