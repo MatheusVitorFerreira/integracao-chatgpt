@@ -65,7 +65,7 @@ body {
 }
 
 #uploadBox label {
-    display: block;
+    display: inline-block;
     margin-bottom: 10px;
     cursor: pointer;
     color: #fff;
@@ -98,10 +98,5 @@ body {
 
 #preview:focus {
     border-color: #DFF986;
-}
-#uploadBox h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #DFF986;
-    margin-bottom: 20px;
+    border-color: #DFF986;
 }

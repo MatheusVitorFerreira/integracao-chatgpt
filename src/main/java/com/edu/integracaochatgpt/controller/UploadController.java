@@ -12,27 +12,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadController {
 
     @Autowired
-    private AudioTranscriptionService transcriptionService;
+    private  AudioTranscriptionService transcriptionService;
 
     @PostMapping("/audio")
-    public ResponseEntity<String> transcribeAudio(@RequestParam("file") MultipartFile audioFile) {
+    public ResponseEntity<String> transcreverAudio(@RequestParam("file") MultipartFile arquivoAudio) {
         try {
-            if (audioFile == null || audioFile.isEmpty()) {
-                return ResponseEntity.badRequest().body("Arquivo de áudio não fornecido.");
-            }
-
-            String transcription = transcriptionService.transcribeAudio(audioFile);
-
-            // Verifica se a transcrição foi bem-sucedida
-            if (transcription != null && !transcription.isEmpty()) {
-                return ResponseEntity.ok(transcription);
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Não foi possível transcrever o áudio.");
-            }
+            String transcripcao = transcriptionService.transcreverAudio(arquivoAudio);
+            return ResponseEntity.ok(transcripcao);
         } catch (Exception e) {
-
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao transcrever áudio.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao transcrever o áudio.");
         }
     }
 }

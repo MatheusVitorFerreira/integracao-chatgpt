@@ -1,65 +1,49 @@
 package com.edu.integracaochatgpt.service;
-
-import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.api.gax.rpc.ApiException;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.speech.v1.*;
+import com.google.protobuf.ByteString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-
 
 @Service
 public class AudioTranscriptionService {
+
+    private final SpeechClient speechClient;
+
     @Autowired
-    private ResourceLoader resourceLoader;
+    public AudioTranscriptionService(SpeechClient speechClient) {
+        this.speechClient = speechClient;
+    }
 
-    public String transcribeAudio(MultipartFile audioFile) {
+    public String transcreverAudio(MultipartFile arquivoAudio) throws IOException {
         try {
+            byte[] audioBytes = arquivoAudio.getBytes();
+            ByteString audioBytesString = ByteString.copyFrom(audioBytes);
 
-            Resource resource = resourceLoader.getResource("classpath:transcrever-audio-em-texto-b8708667f6a3.json");
-            InputStream inputStream = resource.getInputStream();
-            GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
+            RecognitionConfig config =
+                    RecognitionConfig.newBuilder()
+                            .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+                            .setSampleRateHertz(16000)
+                            .setLanguageCode("pt-BR")
+                            .build();
 
-            SpeechSettings settings = SpeechSettings.newBuilder()
-                    .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
-                    .build();
+            RecognitionAudio audio = RecognitionAudio.newBuilder().setContent(audioBytesString).build();
 
-            try (SpeechClient speechClient = SpeechClient.create(settings)) {
+            RecognizeResponse response = speechClient.recognize(config, audio);
 
-                byte[] audioBytes = audioFile.getBytes();
-
-                RecognitionConfig config =
-                        RecognitionConfig.newBuilder()
-                                .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
-                                .setSampleRateHertz(16000)
-                                .setLanguageCode("pt-BR")
-                                .build();
-
-                RecognitionAudio audio = RecognitionAudio.newBuilder()
-                        .setContent(com.google.protobuf.ByteString.copyFrom(audioBytes))
-                        .build();
-
-                RecognizeResponse response = speechClient.recognize(config, audio);
-                List<SpeechRecognitionResult> results = response.getResultsList();
-
-                StringBuilder transcription = new StringBuilder();
-                for (SpeechRecognitionResult result : results) {
-                    SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
-                    transcription.append(alternative.getTranscript());
-                }
-
-                return transcription.toString();
+            StringBuilder transcripcao = new StringBuilder();
+            List<SpeechRecognitionResult> results = response.getResultsList();
+            for (SpeechRecognitionResult result : results) {
+                transcripcao.append(result.getAlternativesList().get(0).getTranscript());
             }
-        } catch (IOException | ApiException e) {
-            e.printStackTrace();
-            return null;
+            return transcripcao.toString();
+        } catch (ApiException e) {
+            System.out.println("Erro ao transcrever áudio: " + e.getStatusCode().getCode());
+            throw e;
         }
     }
 }
