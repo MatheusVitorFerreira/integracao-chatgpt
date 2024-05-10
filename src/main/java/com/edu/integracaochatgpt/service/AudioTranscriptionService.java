@@ -26,7 +26,7 @@ public class AudioTranscriptionService {
 
             RecognitionConfig config =
                     RecognitionConfig.newBuilder()
-                            .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+                            .setEncoding(RecognitionConfig.AudioEncoding.forNumber(0))
                             .setSampleRateHertz(16000)
                             .setLanguageCode("pt-BR")
                             .build();

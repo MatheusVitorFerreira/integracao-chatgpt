@@ -100,3 +100,6 @@ body {
     border-color: #DFF986;
     border-color: #DFF986;
 }
+#uploadBox h1 {
+    color: green;
+}

@@ -27,13 +27,10 @@ async function attemptLogin(event) {
       const token = data.token;
       localStorage.setItem('token', token);
 
-      // Esconder elementos de login
       document.getElementById('login').style.display = 'none';
 
-      // Exibir elementos de upload de arquivo e área de pré-visualização
       document.getElementById('uploadBox').style.display = 'block';
 
-      // Exibir elementos de upload de arquivo e área de pré-visualização
       document.getElementById('arquivo').style.display = 'block';
       document.getElementById('preview').style.display = 'block';
     } else {
@@ -48,6 +45,8 @@ async function attemptLogin(event) {
 }
 
 const input = document.querySelector('#arquivo');
+const preview = document.querySelector('#preview');
+
 input.addEventListener('change', async function() {
     const arquivo = this.files[0];
     const leitor = new FileReader();
@@ -65,6 +64,7 @@ input.addEventListener('change', async function() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Transcrição do áudio:', data.transcription);
+                preview.value = data.transcription;
             } else {
                 console.error('Erro ao enviar arquivo de áudio:', response.status);
             }
@@ -74,5 +74,4 @@ input.addEventListener('change', async function() {
     });
 
     leitor.readAsArrayBuffer(arquivo);
-    preview.value = leitor.result;
 });

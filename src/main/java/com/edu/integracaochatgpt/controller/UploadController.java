@@ -7,21 +7,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/transcription")
 public class UploadController {
 
     @Autowired
-    private  AudioTranscriptionService transcriptionService;
+    private AudioTranscriptionService transcriptionService;
 
     @PostMapping("/audio")
-    public ResponseEntity<String> transcreverAudio(@RequestParam("file") MultipartFile arquivoAudio) {
+    public ResponseEntity<Map<String, String>> transcreverAudio(@RequestParam("file") MultipartFile arquivoAudio) {
         try {
             String transcripcao = transcriptionService.transcreverAudio(arquivoAudio);
-            return ResponseEntity.ok(transcripcao);
+            Map<String, String> obj = java.util.Map.of("transcription", transcripcao);
+            return ResponseEntity.ok().body(obj);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao transcrever o áudio.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
