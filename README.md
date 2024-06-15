@@ -1,38 +1,16 @@
-# API de Gerenciamento de Clientes e Pedidos
+# Projeto de Integração com Google Cloud Serviço de Speech to Text
 
-A API de Gerenciamento de Clientes e Pedidos oferece funcionalidades robustas para o registro de clientes, cadastro de produtos e associação de pedidos, garantindo segurança com autenticação via Token JWT e facilitando a consulta com documentação completa utilizando Swagger.
+Uma API de integração para transcrição de áudio em texto, integrada com o Google Cloud, desenvolvida com Java, Spring Boot e PostgreSQL. Para utilizar esta API, é necessário possuir uma chave de API e fornecer suas credenciais para acessar o serviço de Speech-to-Text do Google Cloud. Para mais detalhes e instruções sobre como utilizar a API, consulte a documentação oficial disponível em: Documentação Google Cloud Speech-to-Text.(https://cloud.google.com/speech-to-text/docs/transcribe-api?hl=pt-br).
 
-## Funcionalidades:
+# Funcionalidades
+- Conversão Automática: Converta facilmente arquivos de áudio em transcrições de texto de forma automática e precisa.
+- Integração com a API do Google Cloud: Utilize a API de Speech to Text do Google Cloud para uma integração fluida e confiável.
+- Suporte a Diferentes Formatos de Áudio: Suporta uma variedade de formatos de áudio, incluindo MP3, FLAC, Linear16, Mulan, Opus e AMR, - garantindo flexibilidade na utilização.
+- Configuração Flexível: Configure e personalize o projeto de acordo com as necessidades específicas do seu projeto, garantindo que ele atenda perfeitamente aos requisitos.
 
-Registro de Clientes: Permite criar perfis de clientes com informações relevantes para a sua base de dados.
-
-Cadastro de Produtos: Inclui produtos com detalhes para venda, permitindo uma gestão eficiente do inventário.
-
-Associação de Pedidos: Vincula pedidos aos clientes e produtos correspondentes, oferecendo um gerenciamento completo das transações.
-
-Autenticação via Token JWT: Garante segurança na comunicação entre cliente e servidor, autenticando usuários por meio de tokens JWT.
-
-Documentação com Swagger: Facilita a consulta e integração com a API por meio de uma documentação interativa e completa.
-
-## Tecnologias Utilizadas:
-
-Banco de Dados: MYSQL
-- Java: Linguagem de programação utilizada para o desenvolvimento da API.
-- Spring Boot: Framework que oferece um ambiente simplificado e eficiente para o desenvolvimento de aplicações em Java.
--  Spring Security: Provê recursos robustos de segurança para proteger a API.
-- JWT: Protocolo de autenticação por token que garante alta escalabilidade e segurança.
-- Swagger: Ferramenta que gera documentação interativa para facilitar o uso e a integração com a API.
-
-## Benefícios:
-
-- Gerenciamento completo: Permite controlar clientes, produtos e pedidos em um único lugar, simplificando operações de negócios.
-- Segurança aprimorada: Oferece uma camada adicional de segurança com autenticação por token, protegendo os dados dos usuários.
-- Integração facilitada: A documentação completa disponibilizada pelo Swagger facilita a integração e o uso da API por desenvolvedores e clientes.
-
-# Acesse a Documentação:
-
-Swagger UI: http://localhost:8080/swagger-ui/index.html
-Contato:
-
-## Email: matheusvitor.dev00@gmail.com
-## Linkedin: Matheus Vitor
+# Tecnologias Utilizadas
+- Java: Java como a linguagem principal do projeto.
+- SpringBoot: fornece uma estrutura robusta e pronta para uso que simplifica a configuração e o desenvolvimento de aplicativos.
+- Swagger: Documentação interativa da API, facilitando o entendimento e utilização das funcionalidades oferecidas.
+- JWT (JSON Web Tokens): Implementação de um sistema de segurança robusto utilizando JWT, garantindo que apenas usuários autorizados tenham acesso às funcionalidades do sistema.
+- JavaScript, HTML e CSS: Utilizadas para o desenvolvimento da interface do usuário, fornecendo uma experiência amigável e responsiva.
